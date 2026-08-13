@@ -1,12 +1,12 @@
 {
-  "name": "react-native-app-usage-stats",
-  "version": "0.1.0",
+  "name": "rn-app-usage-stats",
+  "version": "1.1.0",
   "description": "app usage stats api for react native",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
     ".": {
-      "react-native-app-usage-stats-source": "./src/index.tsx",
+      "rn-app-usage-stats-source": "./src/index.tsx",
       "types": "./lib/typescript/src/index.d.ts",
       "default": "./lib/module/index.js"
     },
@@ -32,7 +32,8 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-app-usage-stats-example",
+    "android": "npm run android --workspace example",
+    "example": "yarn workspace rn-app-usage-stats-example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
     "typecheck": "tsc",
@@ -49,14 +50,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Unstatic-co/react-native-app-usage-stats.git"
+    "url": "git+https://github.com/Unstatic-co/rn-app-usage-stats.git"
   },
   "author": "Linh Than <36438875+linhttbk@users.noreply.github.com> (https://github.com/linhttbk)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Unstatic-co/react-native-app-usage-stats/issues"
+    "url": "https://github.com/Unstatic-co/rn-app-usage-stats/issues"
   },
-  "homepage": "https://github.com/Unstatic-co/react-native-app-usage-stats#readme",
+  "homepage": "https://github.com/Unstatic-co/rn-app-usage-stats#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
