@@ -20,7 +20,7 @@ class AppUsageStatsModule(reactContext: ReactApplicationContext) :
     reactContext.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
   }
   private val helper: AppUsageStatsQueryHelper by lazy {
-    AppUsageStatsQueryHelper(usageStatsManager)
+    AppUsageStatsQueryHelper(usageStatsManager, reactApplicationContext.packageManager)
   }
   private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -126,6 +126,18 @@ class AppUsageStatsModule(reactContext: ReactApplicationContext) :
     startRange: Double, endRange: Double, promise: Promise
   ) {
     queryAggregatedUsageStatsByPackageName(null, startRange, endRange, promise)
+  }
+
+  override fun queryUsageApps(
+    startRange: Double, endRange: Double, promise: Promise
+  ) {
+    coroutineScope.launch {
+      try {
+        promise.resolve(helper.queryUsageApps(startRange.toLong(), endRange.toLong()))
+      } catch (e: Exception) {
+        promise.reject("USAGE_STATS_ERROR", e.message, e)
+      }
+    }
   }
 
 

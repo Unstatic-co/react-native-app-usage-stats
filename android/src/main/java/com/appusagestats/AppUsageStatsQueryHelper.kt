@@ -5,12 +5,16 @@ import android.app.usage.UsageEvents
 import android.app.usage.UsageEventsQuery
 import android.app.usage.UsageStatsManager
 import android.os.Build
+import android.content.pm.PackageManager
 import androidx.annotation.RequiresPermission
 import com.facebook.react.bridge.ReadableNativeMap
 import com.facebook.react.bridge.WritableNativeArray
 import com.facebook.react.bridge.WritableNativeMap
 
-class AppUsageStatsQueryHelper(private val usageStatsManager: UsageStatsManager) {
+class AppUsageStatsQueryHelper(
+  private val usageStatsManager: UsageStatsManager,
+  private val packageManager: PackageManager
+) {
 
 
   @RequiresPermission(Manifest.permission.PACKAGE_USAGE_STATS)
@@ -233,6 +237,44 @@ class AppUsageStatsQueryHelper(private val usageStatsManager: UsageStatsManager)
       }
     }
     return resultList
+  }
+
+  fun queryUsageApps(startTime: Long, endTime: Long): WritableNativeArray {
+    val packages = usageStatsManager
+      .queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime)
+      .asSequence()
+      .filter { it.totalTimeInForeground > 0 }
+      .map { it.packageName }
+      .distinct()
+      .map { packageName ->
+        val appName = try {
+          val applicationInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getApplicationInfo(
+              packageName,
+              PackageManager.ApplicationInfoFlags.of(0)
+            )
+          } else {
+            @Suppress("DEPRECATION")
+            packageManager.getApplicationInfo(packageName, 0)
+          }
+          packageManager.getApplicationLabel(applicationInfo).toString()
+        } catch (_: PackageManager.NameNotFoundException) {
+          packageName
+        }
+        packageName to appName
+      }
+      .sortedBy { it.second.lowercase() }
+
+    return WritableNativeArray().apply {
+      packages.forEach { (packageName, appName) ->
+        pushMap(
+          WritableNativeMap().apply {
+            putString("appName", appName)
+            putString("packageName", packageName)
+          }
+        )
+      }
+    }
   }
 
 

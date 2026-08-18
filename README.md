@@ -161,6 +161,18 @@ queryAggregatedUsageStatsByPackageName(
 
 Queries aggregated usage statistics for a specific package.
 
+### `queryUsageApps()`
+
+```ts
+queryUsageApps(
+  startRange: number,
+  endRange: number
+): Promise<Array<{ appName: string; packageName: string }>>
+```
+
+Returns the display name and package name of apps with foreground usage in the
+requested range. It does not scan the complete installed-app inventory.
+
 ## Android Support
 
 This library is currently intended for **Android** and uses Android's `UsageStatsManager` APIs.

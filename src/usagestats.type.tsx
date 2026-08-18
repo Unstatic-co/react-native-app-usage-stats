@@ -14,3 +14,8 @@ export interface AppUsageStatsAggregated {
   firstTimeStamp: number;
   lastTimeStamp: number;
 }
+
+export interface UsageApp {
+  appName: string;
+  packageName: string;
+}

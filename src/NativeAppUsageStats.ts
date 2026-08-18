@@ -3,6 +3,7 @@ import type {
   AppUsageStats,
   AppUsageStatsMap,
   AppUsageStatsAggregated,
+  UsageApp,
 } from './usagestats.type';
 
 export interface Spec extends TurboModule {
@@ -31,6 +32,8 @@ export interface Spec extends TurboModule {
     startRange: number,
     endRange: number
   ): Promise<AppUsageStatsAggregated[]>;
+
+  queryUsageApps(startRange: number, endRange: number): Promise<UsageApp[]>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('AppUsageStats');

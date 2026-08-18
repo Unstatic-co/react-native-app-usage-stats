@@ -5,6 +5,7 @@ export type {
   AppUsageStats,
   AppUsageStatsAggregated,
   AppUsageStatsMap,
+  UsageApp,
 } from './usagestats.type';
 
 export async function requestUsageStatsPermission(): Promise<boolean> {
@@ -53,4 +54,11 @@ export async function queryAggregatedUsageStats(
     startRange,
     endRange
   );
+}
+
+export async function queryUsageApps(
+  startRange: number,
+  endRange: number
+): Promise<import('./usagestats.type').UsageApp[]> {
+  return await NativeAppUsageStats.queryUsageApps(startRange, endRange);
 }
