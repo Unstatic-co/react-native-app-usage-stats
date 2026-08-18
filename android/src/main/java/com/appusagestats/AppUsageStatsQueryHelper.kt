@@ -4,9 +4,7 @@ import android.Manifest
 import android.app.usage.UsageEvents
 import android.app.usage.UsageEventsQuery
 import android.app.usage.UsageStatsManager
-import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.facebook.react.bridge.ReadableNativeMap
 import com.facebook.react.bridge.WritableNativeArray
@@ -148,7 +146,6 @@ class AppUsageStatsQueryHelper(private val usageStatsManager: UsageStatsManager)
       usageStatsManager.queryEvents(startTime, endTime)
     }
     if (events == null) return WritableNativeArray()
-    val resultList = mutableListOf<AppUsageSessionEvent>()
     val result = WritableNativeArray()
     val eventHolder = UsageEvents.Event()
     var currentPkg: String? = null
@@ -203,8 +200,12 @@ class AppUsageStatsQueryHelper(private val usageStatsManager: UsageStatsManager)
     }
     currentPkg?.let {
       if (currentStartTime < endTime && currentPkg == packageName) {
-        resultList.add(
-          AppUsageSessionEvent(it, currentStartTime, endTime)
+        result.pushMap(
+          WritableNativeMap().apply {
+            putString("packageName", it)
+            putLong("startTime", currentStartTime)
+            putLong("endTime", endTime)
+          }
         )
       }
     }
@@ -226,7 +227,7 @@ class AppUsageStatsQueryHelper(private val usageStatsManager: UsageStatsManager)
             putString("packageName", usageStats.packageName)
             putLong("totalTimeInForeground", usageStats.totalTimeInForeground)
             putLong("firstTimeStamp", usageStats.firstTimeStamp)
-            putLong("endTime", usageStats.lastTimeStamp)
+            putLong("lastTimeStamp", usageStats.lastTimeStamp)
           }
         )
       }

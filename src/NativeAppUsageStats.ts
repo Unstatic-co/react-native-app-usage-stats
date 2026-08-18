@@ -1,25 +1,28 @@
 import { TurboModuleRegistry, type TurboModule } from 'react-native';
-import type {AppUsageStats, AppUsageStatsMap,AppUsageStatsAggregated} from './usagestats.type';
+import type {
+  AppUsageStats,
+  AppUsageStatsMap,
+  AppUsageStatsAggregated,
+} from './usagestats.type';
 
 export interface Spec extends TurboModule {
-
   hasUsageStatsPermission(): Promise<boolean>;
 
   requestUsageStatsPermission(): Promise<boolean>;
 
-  getSampleUsageStats(
+  queryAppUsageSessions(
     startRange: number,
     endRange: number
   ): Promise<AppUsageStatsMap>;
 
-   getSampleUsageStatsByPackageName(
-    packageName:string,
+  queryAppUsageSessionsByPackageName(
+    packageName: string,
     startRange: number,
     endRange: number
   ): Promise<AppUsageStats[]>;
 
   queryAggregatedUsageStatsByPackageName(
-    packageName:string,
+    packageName: string,
     startRange: number,
     endRange: number
   ): Promise<AppUsageStatsAggregated[]>;
@@ -28,9 +31,6 @@ export interface Spec extends TurboModule {
     startRange: number,
     endRange: number
   ): Promise<AppUsageStatsAggregated[]>;
-
-
-
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('AppUsageStats');

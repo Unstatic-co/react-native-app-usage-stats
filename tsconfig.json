@@ -2,12 +2,12 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-app-usage-stats": ["./src/index"]
+      "rn-app-usage-stats": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "customConditions": [
-      "react-native-app-usage-stats-source",
+      "rn-app-usage-stats-source",
       "react-native-strict-api"
     ],
     "esModuleInterop": true,

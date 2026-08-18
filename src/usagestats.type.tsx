@@ -1,7 +1,7 @@
 export interface AppUsageStats {
-    packageName:string;
-    startTimeMs:number;
-    endTimeMs:number;
+  packageName: string;
+  startTime: number;
+  endTime: number;
 }
 
 export type AppUsageStatsMap = {
@@ -9,8 +9,8 @@ export type AppUsageStatsMap = {
 };
 
 export interface AppUsageStatsAggregated {
-    packageName:string;
-    totalTimeInForeground:number;
-    firstTimeStamp:number;
-    lastTimeStamp:number;
+  packageName: string;
+  totalTimeInForeground: number;
+  firstTimeStamp: number;
+  lastTimeStamp: number;
 }

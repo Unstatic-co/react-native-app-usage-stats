@@ -1,20 +1,14 @@
-import  {useState} from 'react';
-import {
-  Button,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { useState } from 'react';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import {
   requestUsageStatsPermission,
   hasUsageStatsPermission,
-  getSampleUsageStats,
-  getSampleUsageStatsByPackageName,
+  queryAppUsageSessions,
+  queryAppUsageSessionsByPackageName,
   queryAggregatedUsageStats,
   queryAggregatedUsageStatsByPackageName,
-} from 'react-native-app-usage-stats';
+} from 'rn-app-usage-stats';
 
 export default function App() {
   const [permission, setPermission] = useState<boolean | null>(null);
@@ -38,15 +32,12 @@ export default function App() {
     }
   };
 
-  const loadSampleStats = async () => {
+  const loadSessions = async () => {
     try {
       const endRange = Date.now();
       const startRange = endRange - 24 * 60 * 60 * 1000;
 
-      const stats = await getSampleUsageStats(
-        startRange,
-        endRange,
-      );
+      const stats = await queryAppUsageSessions(startRange, endRange);
 
       setResult(stats);
     } catch (error) {
@@ -54,17 +45,16 @@ export default function App() {
     }
   };
 
-  const loadSampleStatsByPackage = async () => {
+  const loadSessionsByPackage = async () => {
     try {
       const endRange = Date.now();
       const startRange = endRange - 24 * 60 * 60 * 1000;
 
-      const stats =
-        await getSampleUsageStatsByPackageName(
-          'com.android.settings',
-          startRange,
-          endRange,
-        );
+      const stats = await queryAppUsageSessionsByPackageName(
+        'com.android.settings',
+        startRange,
+        endRange
+      );
 
       setResult(stats);
     } catch (error) {
@@ -77,10 +67,7 @@ export default function App() {
       const endRange = Date.now();
       const startRange = endRange - 24 * 60 * 60 * 1000;
 
-      const stats = await queryAggregatedUsageStats(
-        startRange,
-        endRange,
-      );
+      const stats = await queryAggregatedUsageStats(startRange, endRange);
 
       setResult(stats);
     } catch (error) {
@@ -93,12 +80,11 @@ export default function App() {
       const endRange = Date.now();
       const startRange = endRange - 24 * 60 * 60 * 1000;
 
-      const stats =
-        await queryAggregatedUsageStatsByPackageName(
-          'com.android.settings',
-          startRange,
-          endRange,
-        );
+      const stats = await queryAggregatedUsageStatsByPackageName(
+        'com.android.settings',
+        startRange,
+        endRange
+      );
 
       setResult(stats);
     } catch (error) {
@@ -108,9 +94,7 @@ export default function App() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>
-        App Usage Stats
-      </Text>
+      <Text style={styles.title}>App Usage Stats</Text>
 
       <Text style={styles.permission}>
         Permission:{' '}
@@ -122,10 +106,7 @@ export default function App() {
       </Text>
 
       <View style={styles.button}>
-        <Button
-          title="Check Permission"
-          onPress={checkPermission}
-        />
+        <Button title="Check Permission" onPress={checkPermission} />
       </View>
 
       <View style={styles.button}>
@@ -136,24 +117,18 @@ export default function App() {
       </View>
 
       <View style={styles.button}>
-        <Button
-          title="Get Sample Stats"
-          onPress={loadSampleStats}
-        />
+        <Button title="Query Usage Sessions" onPress={loadSessions} />
       </View>
 
       <View style={styles.button}>
         <Button
-          title="Get Sample Stats By Package"
-          onPress={loadSampleStatsByPackage}
+          title="Query Usage Sessions By Package"
+          onPress={loadSessionsByPackage}
         />
       </View>
 
       <View style={styles.button}>
-        <Button
-          title="Query Aggregated Stats"
-          onPress={loadAggregatedStats}
-        />
+        <Button title="Query Aggregated Stats" onPress={loadAggregatedStats} />
       </View>
 
       <View style={styles.button}>
@@ -165,13 +140,9 @@ export default function App() {
 
       {result !== null && (
         <View style={styles.resultContainer}>
-          <Text style={styles.resultTitle}>
-            Result
-          </Text>
+          <Text style={styles.resultTitle}>Result</Text>
 
-          <Text style={styles.result}>
-            {JSON.stringify(result, null, 2)}
-          </Text>
+          <Text style={styles.result}>{JSON.stringify(result, null, 2)}</Text>
         </View>
       )}
     </ScrollView>

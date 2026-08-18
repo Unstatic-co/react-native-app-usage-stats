@@ -71,7 +71,7 @@ class AppUsageStatsModule(reactContext: ReactApplicationContext) :
     reactApplicationContext.startActivity(intent)
   }
 
-  override fun getSampleUsageStats(
+  override fun queryAppUsageSessions(
     startRange: Double, endRange: Double, promise: Promise
   ) {
     coroutineScope.launch {
@@ -84,7 +84,7 @@ class AppUsageStatsModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  override fun getSampleUsageStatsByPackageName(
+  override fun queryAppUsageSessionsByPackageName(
     packageName: String?, startRange: Double, endRange: Double, promise: Promise
   ) {
     if (packageName == null) {

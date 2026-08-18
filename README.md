@@ -29,10 +29,7 @@ if (granted) {
   const endTime = Date.now();
   const startTime = endTime - 24 * 60 * 60 * 1000;
 
-  const sessions = await queryAppUsageSessions(
-    startTime,
-    endTime
-  );
+  const sessions = await queryAppUsageSessions(startTime, endTime);
 
   console.log(sessions);
 }
@@ -64,10 +61,7 @@ This opens the Android Usage Access Settings. The returned promise resolves to `
 const endTime = Date.now();
 const startTime = endTime - 24 * 60 * 60 * 1000;
 
-const sessions = await queryAppUsageSessions(
-  startTime,
-  endTime
-);
+const sessions = await queryAppUsageSessions(startTime, endTime);
 ```
 
 The result is grouped by package name:
@@ -132,28 +126,17 @@ queryAppUsageSessions(
 
 Queries foreground application sessions within the specified time range and groups the results by package name.
 
-### `getSampleUsageStats()`
+### `queryAppUsageSessionsByPackageName()`
 
 ```ts
-getSampleUsageStats(
-  startRange: number,
-  endRange: number
-): Promise<Record<string, AppUsageStats[]>>
-```
-
-Returns sample usage statistics for development and testing.
-
-### `getSampleUsageStatsByPackageName()`
-
-```ts
-getSampleUsageStatsByPackageName(
+queryAppUsageSessionsByPackageName(
   packageName: string,
   startRange: number,
   endRange: number
 ): Promise<AppUsageStats[]>
 ```
 
-Returns sample usage statistics for a specific package.
+Queries real foreground application sessions for an exact Android package name.
 
 ### `queryAggregatedUsageStats()`
 
@@ -161,7 +144,7 @@ Returns sample usage statistics for a specific package.
 queryAggregatedUsageStats(
   startRange: number,
   endRange: number
-): Promise<AppUsageStats[]>
+): Promise<AppUsageStatsAggregated[]>
 ```
 
 Queries aggregated usage statistics for the specified time range.
@@ -173,7 +156,7 @@ queryAggregatedUsageStatsByPackageName(
   packageName: string,
   startRange: number,
   endRange: number
-): Promise<AppUsageStats[]>
+): Promise<AppUsageStatsAggregated[]>
 ```
 
 Queries aggregated usage statistics for a specific package.
@@ -186,9 +169,9 @@ Usage statistics are subject to Android's Usage Access permission and the behavi
 
 ## Contributing
 
-* [Development workflow](CONTRIBUTING.md#development-workflow)
-* [Sending a pull request](CONTRIBUTING.md#sending-a-pull-request)
-* [Code of conduct](CODE_OF_CONDUCT.md)
+- [Development workflow](CONTRIBUTING.md#development-workflow)
+- [Sending a pull request](CONTRIBUTING.md#sending-a-pull-request)
+- [Code of conduct](CODE_OF_CONDUCT.md)
 
 ## License
 

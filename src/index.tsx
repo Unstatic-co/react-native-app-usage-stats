@@ -1,41 +1,56 @@
-
-
 import NativeAppUsageStats from './NativeAppUsageStats';
-import type {AppUsageStats, AppUsageStatsAggregated} from './usagestats.type';
+import type { AppUsageStats, AppUsageStatsAggregated } from './usagestats.type';
+
+export type {
+  AppUsageStats,
+  AppUsageStatsAggregated,
+  AppUsageStatsMap,
+} from './usagestats.type';
 
 export async function requestUsageStatsPermission(): Promise<boolean> {
-    return await NativeAppUsageStats.requestUsageStatsPermission();
+  return await NativeAppUsageStats.requestUsageStatsPermission();
 }
 export async function hasUsageStatsPermission(): Promise<boolean> {
-    return await NativeAppUsageStats.hasUsageStatsPermission();
+  return await NativeAppUsageStats.hasUsageStatsPermission();
 }
 
-export async function getSampleUsageStats(
-    startRange: number,
-    endRange: number
+export async function queryAppUsageSessions(
+  startRange: number,
+  endRange: number
 ): Promise<Record<string, AppUsageStats[]>> {
-    return await NativeAppUsageStats.getSampleUsageStats(startRange, endRange);
+  return await NativeAppUsageStats.queryAppUsageSessions(startRange, endRange);
 }
 
-export async function getSampleUsageStatsByPackageName(
-    packageName:string,
-    startRange: number,
-    endRange: number
+export async function queryAppUsageSessionsByPackageName(
+  packageName: string,
+  startRange: number,
+  endRange: number
 ): Promise<AppUsageStats[]> {
-    return await NativeAppUsageStats.getSampleUsageStatsByPackageName(packageName, startRange, endRange);
+  return await NativeAppUsageStats.queryAppUsageSessionsByPackageName(
+    packageName,
+    startRange,
+    endRange
+  );
 }
 
 export async function queryAggregatedUsageStatsByPackageName(
-    packageName:string,
-    startRange: number,
-    endRange: number
+  packageName: string,
+  startRange: number,
+  endRange: number
 ): Promise<AppUsageStatsAggregated[]> {
-    return await NativeAppUsageStats.queryAggregatedUsageStatsByPackageName(packageName, startRange, endRange);
+  return await NativeAppUsageStats.queryAggregatedUsageStatsByPackageName(
+    packageName,
+    startRange,
+    endRange
+  );
 }
 
 export async function queryAggregatedUsageStats(
-    startRange: number,
-    endRange: number
+  startRange: number,
+  endRange: number
 ): Promise<AppUsageStatsAggregated[]> {
-    return await NativeAppUsageStats.queryAggregatedUsageStats(startRange, endRange);
+  return await NativeAppUsageStats.queryAggregatedUsageStats(
+    startRange,
+    endRange
+  );
 }
